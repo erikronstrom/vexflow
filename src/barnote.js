@@ -75,7 +75,9 @@ export var BarNote = (function() {
       L("Rendering bar line at: ", this.getAbsoluteX());
       var barline = new Barline(this.type);
       barline.setX(this.getAbsoluteX());
+      this.elem = this.context.openGroup("barline", this.id);
       barline.draw(this.stave);
+      this.context.closeGroup();
     }
   });
 

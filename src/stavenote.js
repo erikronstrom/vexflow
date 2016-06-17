@@ -386,6 +386,7 @@ export var StaveNote = (function() {
           x_shift: note_props.shift_right,
           line: note_props.line
         });
+        note_head.id = note_props.id;
 
         this.note_heads[i] = note_head;
       }
@@ -424,6 +425,9 @@ export var StaveNote = (function() {
           throw new Vex.RuntimeError("BadArguments",
               "Invalid key for note properties: " + key);
         }
+
+        // Use id property from the key if present
+        props.id = key.id;
 
         // Override line placement for default rests
         if (props.key === "R") {
@@ -925,7 +929,7 @@ export var StaveNote = (function() {
     drawNoteHeads: function(){
       var that = this;
       this.note_heads.forEach(function(note_head) {
-        that.context.openGroup("notehead", null, {pointerBBox: true});
+        that.context.openGroup("notehead", note_head.id, {pointerBBox: true});
         note_head.setContext(that.context).draw();
         that.context.closeGroup();
       }, this);

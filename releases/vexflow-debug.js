@@ -1,5 +1,5 @@
 /**
- * VexFlow 1.2.48 built on 2016-06-17.
+ * VexFlow 1.2.48 built on 2016-06-18.
  * Copyright (c) 2010 Mohit Muthanna Cheppudira <mohit@muthanna.com>
  *
  * http://www.vexflow.com  http://github.com/0xfe/vexflow
@@ -6709,6 +6709,7 @@
             x_shift: note_props.shift_right,
             line: note_props.line
           });
+          note_head.id = note_props.id;
 
           this.note_heads[i] = note_head;
         }
@@ -6747,6 +6748,9 @@
             throw new Vex$1.RuntimeError("BadArguments",
                 "Invalid key for note properties: " + key);
           }
+
+          // Use id property from the key if present
+          props.id = key.id;
 
           // Override line placement for default rests
           if (props.key === "R") {
@@ -7248,7 +7252,7 @@
       drawNoteHeads: function(){
         var that = this;
         this.note_heads.forEach(function(note_head) {
-          that.context.openGroup("notehead", null, {pointerBBox: true});
+          that.context.openGroup("notehead", note_head.id, {pointerBBox: true});
           note_head.setContext(that.context).draw();
           that.context.closeGroup();
         }, this);
@@ -15488,7 +15492,9 @@
         L("Rendering bar line at: ", this.getAbsoluteX());
         var barline = new Barline(this.type);
         barline.setX(this.getAbsoluteX());
+        this.elem = this.context.openGroup("barline", this.id);
         barline.draw(this.stave);
+        this.context.closeGroup();
       }
     });
 
