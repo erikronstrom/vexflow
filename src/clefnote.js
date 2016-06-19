@@ -73,6 +73,8 @@ export var ClefNote = (function() {
       }
       var abs_x = this.getAbsoluteX();
 
+      this.stave.context.openGroup('clef', this.id);
+
       this.glyph.setStave(this.stave);
       this.glyph.setYShift(
         this.stave.getYForLine(this.clef.line) - this.stave.getYForGlyphs());
@@ -91,6 +93,7 @@ export var ClefNote = (function() {
         attachment.renderToStave(abs_x);
       }
 
+      this.stave.context.closeGroup();
     }
   });
 

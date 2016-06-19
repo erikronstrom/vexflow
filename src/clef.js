@@ -146,6 +146,7 @@ export var Clef = (function() {
       this.setPosition(StaveModifier.Position.BEGIN);
       this.setType(type, size, annotation);
       this.setWidth(this.glyph.getMetrics().width);
+      this.id = type ? type.id : null;
       L("Creating clef:", type);
     },
 
@@ -237,6 +238,8 @@ export var Clef = (function() {
         this.placeGlyphOnLine(this.glyph, this.stave, this.clef.line);
       }
 
+      this.stave.context.openGroup('clef', this.id);
+
       this.glyph.renderToStave(this.x);
 
       if (this.annotation !== undefined) {
@@ -245,6 +248,8 @@ export var Clef = (function() {
         this.attachment.setContext(this.stave.context);
         this.attachment.renderToStave(this.x);
       }
+
+      this.stave.context.closeGroup();
     }
   });
 
